@@ -1,0 +1,99 @@
+#   <---------------  FOR TRAIN DATA  ------------>
+
+# Step 1: get a list of all txt files in target directory
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/neg"
+fileslist = []
+os.chdir( my_dir )
+ 
+# Step 2: Build up list of files:
+
+for files in glob.glob("*.txt"):
+    fileslist.append(files) #filename with extension
+fileslist
+
+data=[]
+for f in fileslist:
+    with open (f, "r",encoding="utf8") as myfile:
+        data.append(myfile.read())
+
+imdb_train_neg_df = pd.DataFrame({'Review':data})   #TRAIN DATASET OF NEGATIVE REVIEWS
+
+
+#   <---------------  FOR TEST DATA  ------------>
+
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/neg"
+fileslist = []
+os.chdir( my_dir )
+ 
+# Step 2: Build up list of files:
+for files in glob.glob("*.txt"):
+    fileslist.append(files) #filename with extension
+fileslist
+
+data=[]
+for f in fileslist:
+    with open (f, "r",encoding="utf8") as myfile:
+        data.append(myfile.read())
+
+imdb_test_neg_df = pd.DataFrame({'Review':data})     #TEST DATASET OF negative reviews
+
+#Creating another column 'type' in both the dataframes to categorize negative reviews (0 for negative, 1 for positive)
+
+imdb_train_neg_df['Label']=0
+
+imdb_test_neg_df['Label']=1
+
+#Creating the dataframe of all the Positive reviews from the IMDB Train Data
+
+#   <---------------  FOR TRAIN DATA  ------------>
+
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/pos"
+fileslist = []
+os.chdir( my_dir )
+ 
+# Step 2: Build up list of files:
+for files in glob.glob("*.txt"):
+    fileslist.append(files) #filename with extension
+fileslist
+
+data=[]
+for f in fileslist:
+    with open (f, "r",encoding="utf8") as myfile:
+        data.append(myfile.read())
+
+imdb_train_pos_df = pd.DataFrame({'Review':data})    #TRAIN DATSET OF POSITIVE REVIEWS
+
+#   <---------------  FOR TEST DATA  ------------>
+
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/pos"
+fileslist = []
+os.chdir( my_dir )
+ 
+# Step 2: Build up list of files:
+for files in glob.glob("*.txt"):
+    fileslist.append(files) #filename with extension
+fileslist
+
+data=[]
+for f in fileslist:
+    with open (f, "r",encoding="utf8") as myfile:
+        data.append(myfile.read())
+
+imdb_test_pos_df = pd.DataFrame({'Review':data})     #TEST DATSET OF POSITIVE REVIEWS
+
+#Creating another column 'type' in the dataframe to categorize positive reviews (0 for negative, 1 for positive)
+
+imdb_train_pos_df['Label'] = [1 for _ in range(12500)]
+
+imdb_test_pos_df['Label'] = [1 for _ in range(12500)]
+
+# Combining both the positive and negative reviews in test and train dataframes seperately to have two dataframes 
+# where pos and neg reviews are categorized as 1 & 0 respectively
+
+imdb_train_df = imdb_train_pos_df.append(imdb_train_neg_df)
+
+imdb_test_df = imdb_test_pos_df.append(imdb_test_neg_df)
+
+imdb_train_df = imdb_train_df.reset_index().drop('index', axis=1)   # resetting index to uniquely label index in train dataframe
+
+imdb_test_df = imdb_test_df.reset_index().drop('index', axis=1)   # resetting index to uniquely label index in test dataframe
