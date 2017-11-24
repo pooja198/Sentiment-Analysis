@@ -1,0 +1,38 @@
+
+pos_reviews = list(imdb_train_df[imdb_train_df.Label==1]['Review'])
+pos_reviews = ' '.join(pos_reviews)
+
+neg_reviews = list(imdb_train_df[imdb_train_df.Label==0]['Review'])
+neg_reviews = ' '.join(neg_reviews)
+
+from wordcloud import WordCloud
+
+pos_wordcloudpos_col = dict(collections.Counter(pos_words).most_common(20))
+
+vals = pos_col.values()
+rng = np.arange(len(pos_col.keys()))
+width = 2.5
+
+plt.xticks(rng, pos_col.keys(), rotation=60)
+plt.title('Visualization of Positive Words Distribution')
+plt.bar(rng, vals) = WordCloud().generate(pos_reviews)
+
+plt.figure()
+plt.imshow(pos_wordcloud)
+plt.title('Positive Words WordCloud')
+
+neg_wordcloud = WordCloud().generate(neg_reviews)
+
+plt.figure()
+plt.imshow(neg_wordcloud)
+plt.title('Negative Words WordCloud')
+
+neg_col = dict(collections.Counter(neg_words).most_common(20))
+
+vals = neg_col.values()
+rng = np.arange(len(neg_col.keys()))
+width = 2.5
+
+plt.xticks(rng, neg_col.keys(), rotation=60)
+plt.title('Visualization of Negative Words Distribution')
+plt.bar(rng, vals)
