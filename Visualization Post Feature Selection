@@ -1,0 +1,44 @@
+unimp_words = set(unimp_features.keys())
+
+pos_reviews[:100]
+
+imp_pos_words = ' '.join([i for i in pos_reviews.split() if i not in unimp_words])
+
+imp_neg_words = ' '.join([i for i in neg_reviews.split() if i not in unimp_words])pos_imp_wordcloud = WordCloud().generate(imp_pos_words)
+
+plt.figure()
+plt.imshow(pos_imp_wordcloud)
+plt.title('Positive Words WordCloud After Feature Selection')
+
+neg_imp_wordcloud = WordCloud().generate(imp_neg_words)
+
+plt.figure()
+plt.imshow(neg_imp_wordcloud)
+plt.title('Negative Words WordCloud After Feature Selection')
+
+#Dumping out the umimportant features (which we got from feature selection)
+
+pos_imp_words = [i for i in pos_words if i not in unimp_words]
+
+neg_imp_words = [i for i in neg_words if i not in unimp_words
+
+pos_imp_col = dict(collections.Counter(pos_imp_words).most_common(20))
+
+neg_imp_col = dict(collections.Counter(neg_imp_words).most_common(20))
+
+imp_rng = np.arange(len(pos_imp_col.keys()))
+imp_val = pos_imp_col.values()
+width = 2.5
+
+plt.xticks(imp_rng, pos_imp_col.keys(), rotation=60)
+plt.title('Visualization of Positive Words After Feature Selection')
+plt.bar(imp_rng, imp_val)
+
+imp_rng = np.arange(len(neg_imp_col.keys()))
+imp_val = neg_imp_col.values()
+width = 2.5
+
+plt.xticks(imp_rng, neg_imp_col.keys(), rotation=60)
+plt.title('Visualization of Negative Words After Feature Selection')
+plt.bar(imp_rng, imp_val)
+
