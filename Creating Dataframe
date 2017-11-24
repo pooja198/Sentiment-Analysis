@@ -1,7 +1,7 @@
 #   <---------------  FOR TRAIN DATA  ------------>
 
 # Step 1: get a list of all txt files in target directory
-my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/neg"
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/neg"   #The path where negative train reviews are stored
 fileslist = []
 os.chdir( my_dir )
  
@@ -21,7 +21,7 @@ imdb_train_neg_df = pd.DataFrame({'Review':data})   #TRAIN DATASET OF NEGATIVE R
 
 #   <---------------  FOR TEST DATA  ------------>
 
-my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/neg"
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/neg"    #The path where negative test reviews are stored
 fileslist = []
 os.chdir( my_dir )
  
@@ -47,7 +47,7 @@ imdb_test_neg_df['Label']=1
 
 #   <---------------  FOR TRAIN DATA  ------------>
 
-my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/pos"
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/train/pos"     #The path where positive train reviews are stored
 fileslist = []
 os.chdir( my_dir )
  
@@ -65,7 +65,7 @@ imdb_train_pos_df = pd.DataFrame({'Review':data})    #TRAIN DATSET OF POSITIVE R
 
 #   <---------------  FOR TEST DATA  ------------>
 
-my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/pos"
+my_dir ="C:/Users/joharis/Desktop/Capstone/imdb/test/pos"     #The path where positive test reviews are stored
 fileslist = []
 os.chdir( my_dir )
  
