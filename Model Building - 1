@@ -1,0 +1,52 @@
+# Supervised Learning : A sentiment analysis model to predict positive and negative classes
+
+train_keys = set(train_keys)
+
+imp_imdb_train_df = imdb_train_df.apply(lambda x: ' '.join([i for i in (x['Review']).split() if i in train_keys]), axis=1)
+
+imp_imdb_train_df = pd.DataFrame(imp_imdb_train_df)
+
+imp_imdb_train_df.rename(columns={0:"Review"}, inplace=True)
+
+imp_imdb_train_df.head()
+
+#--------------------------------------
+
+tst_keys = set(tst_keys)
+
+imp_imdb_test_df = imdb_test_df.apply(lambda x: ' '.join([i for i in (x['Review']).split() if i in train_keys]), axis=1)
+
+imp_imdb_test_df = pd.DataFrame(imp_imdb_test_df)
+
+imp_imdb_test_df.rename(columns={0:"Review"}, inplace=True)
+
+imp_imdb_test_df.head()
+
+# -----------------------------------------
+
+train_tv = TfidfVectorizer()
+train_x = train_tv.fit_transform(imp_imdb_train_df['Review'])
+
+train_y = imdb_train_df['Label']
+
+len(train_tv.get_feature_names())  # 2000
+
+test_tv = TfidfVectorizer()
+test_x = test_tv.fit_transform(imp_imdb_test_df['Review'])
+len(test_tv.get_feature_names())    # 2000
+
+test_y = imdb_test_df['Label']
+
+from sklearn.naive_bayes import MultinomialNB
+
+nb_model = MultinomialNB()
+
+nb_model.fit(train_x, y)
+
+y_predict = nb_model.predict(test_x)
+
+from sklearn.metrics import accuracy_score
+
+accuracy = accuracy_score(test_y, y_predict)
+
+accuracy   #  0.85036
