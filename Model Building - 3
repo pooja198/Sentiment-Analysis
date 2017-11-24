@@ -1,0 +1,25 @@
+# SVM (Support Vector Machine)
+
+from sklearn.svm import SVC
+sv_model = SVC()
+sv_model.fit(train_x, train_y)
+sv_model_y = sv_model.predict(test_x)
+
+sv_model_accuracy = accuracy_score(test_y, sv_model_y)
+sv_model_accuracy   # Thus the SVM model has 76% Accuracy (approx.)
+
+
+
+# RFC (Random Forest Classifier)
+
+from sklearn.ensemble import RandomForestClassifier
+rfc = RandomForestClassifier()
+rfc.fit(train_x, train_y)
+rfc_y = rfc.predict(test_x)
+
+rfc_accuracy = accuracy_score(test_y, rfc_y)
+rfc_accuracy     # Thus the Decision Tree model has 77.26% Accuracy (approx.)
+
+#   Also as deduced in Phase 5 Question 1, We have achieved 85% Accuracy using Naive Baye's Algorithm
+#   Hence, for this imdb dataset, the best algorithm which is giving the most accurate result 
+#   for this Sentiment Analysis is Naive Baye's Algorithm
