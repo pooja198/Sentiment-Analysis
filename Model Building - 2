@@ -1,0 +1,24 @@
+
+tf_clust = TfidfVectorizer()
+
+x_kmeans = tf_clust.fit_transform(imp_imdb_train_df['Review'])
+
+from sklearn.cluster import KMeans
+
+kmeans = KMeans(n_clusters=2, random_state=0)
+
+kmeans.fit(x_kmeans)
+
+#<------------------------------------
+
+colors = ['red', 'blue']
+
+pred = [colors[i] for i in kmeans.labels_]
+
+from sklearn.decomposition import TruncatedSVD
+
+kmeans_tsvd = TruncatedSVD(n_components=2)
+
+kmeans_val = kmeans_tsvd.fit_transform(x_kmeans)
+
+plt.scatter(kmeans_val[:, 0], kmeans_val[:,1], c=pred) # matplot Code
