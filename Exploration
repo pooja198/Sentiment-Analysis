@@ -1,0 +1,49 @@
+
+#<---------  Train Dataset  ------------>
+
+pos_corpus = imdb_train_df[(imdb_train_df.Label == 1)]['Review'] # All the Positive Reviews
+
+neg_corpus = imdb_train_df[(imdb_train_df.Label == 0)]['Review'] # All the Negative Reviews
+
+pos_corpus = pos_corpus.apply(lambda x : nltk.word_tokenize(x))  # Tokenizing all the words of every Review
+
+neg_corpus = neg_corpus.apply(lambda x : nltk.word_tokenize(x))
+
+pos_words = [ j for i in pos_corpus for j in i]   # taking every word individually
+
+neg_words = [ j for i in neg_corpus for j in i]
+
+pos_freq = dict(nltk.FreqDist(pos_words))  # Using FreqDist to get the respective frequencies of words
+
+neg_freq = dict(nltk.FreqDist(neg_words))
+
+import collections
+
+pos_common = collections.Counter(pos_freq)   
+neg_common = collections.Counter(neg_freq)
+
+pos_common.most_common(10)  # This will give the 10 most common words with their respective frequencies in Positive Reviews (Excluding stop words)
+
+neg_common.most_common(10)  # This will give the 10 most common words with their respective frequencies in Negative Reviews (Excluding stop words)
+
+all_words = imdb_train_df['Review']
+
+all_words = all_words.apply(lambda x : nltk.word_tokenize(x))
+
+all_words = [j for i in all_words for j in i]
+
+words_freq = dict(nltk.FreqDist(all_words))
+
+max_freq = collections.Counter(words_freq)
+
+
+max_freq.most_common(10)  # This will give the 10 most common words in the entire reviews (Excluding Stop Words)
+
+words_freq = dict(sorted(words_freq.items(), key=operator.itemgetter(1), reverse=False))
+cntr=0
+min_freq = dict()
+for k,v in words_freq.items():
+    if cntr<10:
+        min_freq[k] = v
+        cntr+=1
+min_freq   # Following are the 10 least common words in the entire reviews (Excluding Stop Words)
