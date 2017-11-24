@@ -1,0 +1,55 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+
+# <-------  Feature Selection on Train Data  ------------>
+corpus = imdb_train_df['Review']
+
+tv = TfidfVectorizer()
+x_arr = tv.fit_transform(corpus)
+
+# <-------  Feature Selection on Test Data  ------------>
+corpus_tst = imdb_test_df['Review']
+
+tv_tst = TfidfVectorizer()
+x_tst = tv_tst.fit_transform(corpus_tst)
+
+y = imdb_train_df['Label']
+y_tst = imdb_test_df ['Label']
+
+from sklearn.ensemble import ExtraTreesClassifier
+
+#<---------- for train data  ----------->
+clf = ExtraTreesClassifier()
+
+clf.fit(x_arr, y)
+
+#<--------  for test data   ------>
+clf_tst = ExtraTreesClassifier()
+
+clf_tst.fit(x_tst, y_tst)
+
+# <----------- important features in train data in turn sorted  --------------->
+feature_imp_dict = dict(zip(tv.get_feature_names(), clf.feature_importances_))
+sorted_features = dict(sorted(feature_imp_dict.items(), key=operator.itemgetter(1), reverse=True))
+
+# <----------- important features in test data in turn sorted  --------------->
+tst_feature_imp_dict = dict(zip(tv_tst.get_feature_names(), clf_tst.feature_importances_))
+tst_sorted_features = dict(sorted(tst_feature_imp_dict.items(), key=operator.itemgetter(1), reverse=True))
+
+
+
+#<----------- Imp and unimp features in train data  ------------->
+sel_features = {key:value for key, value in sorted_features.items() if value != 0}
+
+unimp_features = {key:value for key,value in sorted_features.items() if value == 0} 
+
+#<----------- Imp and unimp features in train data  ------------->
+tst_sel_features = {key:value for key, value in tst_sorted_features.items() if value != 0}
+
+tst_unimp_features = {key:value for key,value in tst_sorted_features.items() if value == 0} 
+
+# <--------------- Extracting the top 2000 features from train data ----------------->
+train_keys = set(list(sel_features.keys())[:2000])
+
+# <--------------- Extracting the top 2000 features from test data ----------------->
+tst_keys = set(list(tst_sel_features.keys())[:2000])
+
