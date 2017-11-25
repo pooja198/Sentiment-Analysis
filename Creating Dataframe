@@ -1,3 +1,8 @@
+#Creating Dataframe from the data pesent in our local file system.
+#Data consists of two folder train and test. In each folder there are further two folders Pos & Neg (for positive & Negative Reviews)
+#In both pos folder are .txt files with positive imdb reviews (in my case the count is 12500 in each pos folder)
+#In neg folder are .txt files with negative imdb reviews (in my case the count is 12500 in each neg folder)
+
 #   <---------------  FOR TRAIN DATA  ------------>
 
 # Step 1: get a list of all txt files in target directory
