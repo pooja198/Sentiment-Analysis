@@ -1,0 +1,23 @@
+from sklearn.cluster import MiniBatchKMeans
+
+minikmeans = MiniBatchKMeans(n_clusters = 2)
+minikmeans.fit(train_x)
+
+mkm_colors = ['red', 'blue']
+mkm_pred_colors = [mkm_colors[label] for label in minikmeans.labels_]
+
+mkm_tsvd = TruncatedSVD()
+mkm_values = mkm_tsvd.fit_transform(train_x)
+
+plt.scatter(mkm_values[:,0], mkm_values[:,1], c=mkm_pred_colors)
+plt.title('Mini Batch K Means')
+
+#KMeans is implemented in Model Building - 2 file
+plt.scatter(kmeans_val[:, 0], kmeans_val[:,1], c=pred)
+plt.title('K Means (Model synthesized already in Phase.5  Question.2 )')
+
+accuracy_score(kmeans.labels_, minikmeans.labels_)  
+# just a demonstrative accuracy check to observe the difference in target labels obtained after both of the algorithms
+
+#So as per the above analysis there is a trivial difference in the target labels obtained after implementing both of the algorithms 
+#i.e. only about 540 records have different value among 25000 records leading to a 97.83 % similarity in results of both the algorithm
