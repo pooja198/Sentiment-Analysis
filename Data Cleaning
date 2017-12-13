@@ -1,0 +1,25 @@
+#Removing Markups using BeautifulSoup and punctuation using string.punctuation from both Test & Train Datasets
+
+rev_2=[]
+for i in train_df['review']:
+    x=BeautifulSoup(i.lower())
+    st = x.getText()
+    word = ""
+    for ind in st:
+        if ind not in string.punctuation:
+            word+=ind
+    rev_2.append(word)
+train_df['review'] = rev_2
+
+#---------------------------------For Test Dataframe-------------------------------------
+rev_3=[]
+for i in test_df['Review']:
+    x=BeautifulSoup(i.lower())
+    st = x.getText()
+    word = ""
+    for ind in st:
+        if ind not in string.punctuation:
+            word+=ind
+    rev_3.append(word) 
+    
+ test_df['review'] = rev_3
