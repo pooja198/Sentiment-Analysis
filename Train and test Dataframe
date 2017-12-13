@@ -1,0 +1,92 @@
+#----------- Training Data -- negative reviews-----------
+#Reading the content of all files from neg folder into neg_df (dataframe)
+files_content = []
+files=[]
+path_to_folder='C:/Users/satishpo/Downloads/Project/aclImdb_v1/aclImdb/train/neg'
+cwd = os.getcwd()
+print(cwd)
+os.chdir(path_to_folder)
+files=os.listdir(path_to_folder)
+cwd1 = os.getcwd()
+print(cwd1)
+
+for i in files:
+        with open (i,'r',encoding="utf8")as myfile:
+            files_content.append(myfile.read())
+            
+neg_df= pd.DataFrame(files_content,columns=['review'])
+neg_df['label']='neg'
+neg_df.head(5)
+
+#-------------------Training Data-- positive Reviews-----------------
+#Reading the content of all files from pos folder into pos_df (dataframe)
+
+files_content1=[]
+files1=[]
+path_to_folder1='C:/Users/satishpo/Downloads/Project/aclImdb_v1/aclImdb/train/pos'
+
+
+cwd = os.getcwd()
+print(cwd)
+
+os.chdir(path_to_folder1)
+files1=os.listdir(path_to_folder1)
+cwd1 = os.getcwd()
+print(cwd1)
+
+for j in files1:
+        with open (j,'r',encoding="utf8")as myfile:
+            files_content1.append(myfile.read())
+            
+pos_df=pd.DataFrame(files_content1,columns=['review'])
+pos_df['label']='pos'
+
+#----------------- Train Dataframe wih both positive and negative Dataframe-------
+train_df=neg_df.append(pos_df)
+
+
+#---------------------- To load Testing Data --(negetive reviews) -------------------------------
+
+test_files=[]
+test_filecontent=[]
+path_to_test='C:/Users/satishpo/Downloads/Project/aclImdb_v1/aclImdb/test/neg'
+
+cwd = os.getcwd()
+print(cwd)
+os.chdir(path_to_test)
+files2=os.listdir(path_to_test)
+for k in files2:
+        with open (k,'r',encoding="utf8")as myfile:
+            test_filecontent.append(myfile.read())
+            
+testneg_df=pd.DataFrame(test_filecontent,columns=['review'])
+testneg_df['label']='neg'
+
+#---------------------------------To load Testing Data -- (positive reviews)
+files2=[]
+test_filecontent1=[]
+path_to_test1='C:/Users/satishpo/Downloads/Project/aclImdb_v1/aclImdb/test/pos'
+
+cwd = os.getcwd()
+print(cwd)
+
+os.chdir('C:/Users/satishpo/Downloads/Project/aclImdb_v1/aclImdb/test/pos')
+files2=os.listdir(path_to_test1)
+
+cwd1 = os.getcwd()
+print(cwd1)
+
+for m in files2:
+        with open (m,'r',encoding="utf8")as myfile:
+            test_filecontent1.append(myfile.read())
+            
+testpos_df=pd.DataFrame(test_filecontent1,columns=['review'])
+testpos_df['label']='pos'
+
+#----------------------Test Dataframe with both positive and negative reviews------------------
+
+test_df=testneg_df.append(testpos_df)
+test_df.head()
+
+
+
