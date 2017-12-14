@@ -23,3 +23,46 @@ for i in test_df['Review']:
     rev_3.append(word) 
     
  test_df['review'] = rev_3
+
+#-----------------Removing Stop words---------------------------
+
+stop_words = set(stopwords.words('english'))
+
+#   <------------  For Train Dataset  ------------>
+
+
+train_df['review'] = train_df.apply(lambda x : nltk.word_tokenize(x['review']), axis=1)
+train_df['review'] = train_df.apply(lambda x : [i for i in x['review'] if i not in stop_words], axis=1)
+train_df['review'] = train_df.apply(lambda x : ' '.join(x[review']), axis=1)
+
+
+train_df.head()
+
+# Now, train_df is the train dataset with no stopwords, no punctuation and no mark-ups
+
+#   <------------  For Test Dataset  ------------>
+
+test_df['review'] = test_df.apply(lambda x : nltk.word_tokenize(x['review']), axis=1)
+test_df['review'] = test_df.apply(lambda x : [i for i in x['review'] if i not in stop_words], axis=1)
+test_df['review'] = test_df.apply(lambda x : ' '.join(x['review']), axis=1)
+
+# Now, test_df is the test dataset with no stopwords, no punctuation and no mark-ups
+
+
+#--------------------------------------Applying Lemmatization and Stemming----------------------------
+
+from nltk.stem import WordNetLemmatizer
+
+lemmatizer = WordNetLemmatizer()
+
+snwbl = stem.snowball.EnglishStemmer()
+
+
+train_df['review'] = train_df.apply(lambda x : ' '.join([snwbl.stem(lemmatizer.lemmatize(i)) for i in x['review'].split()]), axis=1)
+
+test_df['review'] = test_df.apply(lambda x : ' '.join([snwbl.stem(lemmatizer.lemmatize(i)) for i in x['review'].split()]), axis=1)
+
+
+
+
+
