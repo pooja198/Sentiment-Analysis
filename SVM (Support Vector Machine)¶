@@ -1,0 +1,11 @@
+#Supervised Learning using Support Vector Machine algorithm
+
+from sklearn.svm import SVC 
+sv_model = SVC()
+sv_model.fit(train_x, train_y)
+
+sv_model_y = sv_model.predict(test_x)
+
+sv_model_accuracy = accuracy_score(test_y, sv_model_y)
+
+sv_model_accuracy
