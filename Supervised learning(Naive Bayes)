@@ -1,0 +1,59 @@
+#Using Feature Selection, we have identified the non important words having an importance of 0.Eliminating which we are left with 21722 words approx that hold some importance value
+
+# Model Building
+
+# Supervised Learning : Build a sentiment analysis model to predict positive and negative classes
+
+train_keys = set(train_keys)
+
+train_df = imdb_train_df.apply(lambda x: ' '.join([i for i in (x['review']).split() if i in train_keys]), axis=1)
+
+train_df = pd.DataFrame(imp_imdb_train_df)
+
+train_df.rename(columns={0:"review"}, inplace=True)
+
+train_df.head()
+#----------------------------------Test Dataset-------------------------
+
+tst_keys = set(tst_keys)
+
+test_df = test_df.apply(lambda x: ' '.join([i for i in (x['review']).split() if i in train_keys]), axis=1)
+
+test_df = pd.DataFrame(imdb_test_df)
+
+test_df.rename(columns={0:"review"}, inplace=True)
+
+test_df.head()
+
+# -------------------------------using tfidf Vectorizer-------------------
+
+train_tv = TfidfVectorizer()
+train_x = train_tv.fit_transform(train_df['review'])
+
+train_y = train_df['Label']
+
+len(train_tv.get_feature_names())
+
+test_tv = TfidfVectorizer()
+test_x = test_tv.fit_transform(test_df['review'])
+len(test_tv.get_feature_names())
+test_y = imdb_test_df['Label']
+#---------------------------------------------NAIVE BAYE'S MODEL-----------------------
+
+from sklearn.naive_bayes import MultinomialNB
+
+nb_model = MultinomialNB()
+
+nb_model.fit(train_x, y)
+
+y_predict = nb_model.predict(test_x)
+
+#-----------------Testing the accurcay of the Model-----------------------
+
+from sklearn.metrics import accuracy_score
+
+accuracy = accuracy_score(test_y, y_predict)
+
+accuracy
+
+
