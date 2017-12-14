@@ -1,0 +1,68 @@
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.ensemble import ExtraTreesClassifier
+
+Creating another column 'type' in the dataframe to categorize positive reviews (0 for negative, 1 for positive)
+
+train_pos_df['Label'] = 1
+
+test_pos_df['Label'] = 1
+
+
+# <-------  Feature Selection on Train Data  ------------>
+corpus = train_df['Review']
+
+tv = TfidfVectorizer()
+x_arr = tv.fit_transform(corpus)
+
+# <-------  Feature Selection on Test Data  ------------>
+corpus_tst = test_df['Review']
+
+tv_tst = TfidfVectorizer()
+x_tst = tv_tst.fit_transform(corpus_tst)
+
+
+
+y = train_df['Label']
+
+y_tst = test_df ['Label']
+
+len(y_tst)
+
+
+
+#<---------- for train data  ----------->
+clf = ExtraTreesClassifier()
+
+clf.fit(x_arr, y)
+
+#<--------  for test data   ------>
+clf_tst = ExtraTreesClassifier()
+
+clf_tst.fit(x_tst, y_tst)
+
+# <----------- important features in train data in turn sorted  --------------->
+feature_imp_dict = dict(zip(tv.get_feature_names(), clf.feature_importances_))
+sorted_features = dict(sorted(feature_imp_dict.items(), key=operator.itemgetter(1), reverse=True))
+
+# <----------- important features in test data in turn sorted  --------------->
+tst_feature_imp_dict = dict(zip(tv_tst.get_feature_names(), clf_tst.feature_importances_))
+tst_sorted_features = dict(sorted(tst_feature_imp_dict.items(), key=operator.itemgetter(1), reverse=True))
+
+#<----------- Imp and unimp features in train data  ------------->
+sel_features = {key:value for key, value in sorted_features.items() if value != 0}
+
+unimp_features = {key:value for key,value in sorted_features.items() if value == 0} 
+
+#<----------- Imp and unimp features in train data  ------------->
+tst_sel_features = {key:value for key, value in tst_sorted_features.items() if value != 0}
+
+tst_unimp_features = {key:value for key,value in tst_sorted_features.items() if value == 0} 
+
+
+# <--------------- Extracting only top 15000 features from train data ----------------->
+train_keys = set(list(sel_features.keys())[:1500])
+len(train_keys)
+
+# <--------------- Extracting only top 15000 features from test data ----------------->
+tst_keys = set(list(tst_sel_features.keys())[:1500])
+len(tst_keys)
